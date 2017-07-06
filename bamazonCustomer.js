@@ -39,44 +39,63 @@ function listOfProducts() {
 
 function chooseProduct() {
     inquirer
-        .prompt({
-            name: "product",
-            type: "input",
-            message: "Enter the ID# of the product you would like to purchase",
-        })
+        .prompt([
+            {
+                name: "product",
+                type: "input",
+                message: "Enter the ID# of the product you would like to purchase"
+            },
+
+            {
+                name: "quantity",
+                type: "input",
+                message: "Enter how many would you like to purchase?"
+
+            }
+        ])
+
+
 
     .then(function(answer) {
-        var query = "SELECT product_name FROM products WHERE?";
-        connection.query(query, { item_id: answer.product }, function(err, res) {
-            for (var i = 0; i < res.length; i++) {
-                console.log("Product Name: " + res[i].product_name)
-            }//end of for loop
+            var query = "SELECT product_name FROM products WHERE?";
+            connection.query(query, { item_id: answer.product }, function(err, res) {
+                    for (var i = 0; i < res.length; i++) {
+                        var productSelected = res[i].product_name
+                        var stockQ = parseInt(productSelected.stock_quantity)
+                        console.log("Product Name: " + productSelected)
+                        console.log("quantity:" + stockQ)
+                    } //end of for loop
 
-        })//end of connection.query
+                }) //end of connection.query
 
-    })//end of .then
-//----------
+            // var quan = "SELECT stock_quantity FROM products WHERE?";
+            // connection.query(quan, {item_id: productSelected}, function(err,res) {
+            //     console.log(this)
+            // })
 
-    function productQuantity() {
-    inquirer
-        .prompt({
-            name: "quantity",
-            type: "input",
-            message: "Enter how many would you like to purchase?"
-        })
+        }) //end of .then
 
-    .then(function(answer) {
-            var query = "SELECT stock_quantity FROM products WHERE?";
-            connection.query(query, {stock_quantity: answer.product}, function(err, res) {
-                console.log("Quantity: " +res[i].stock_quantity)
 
-            })//end of connection.query
-        })//end if .then
-
-} //end of productQuantity function
+} //end of chooseProduct
 
 //----------
 
-}//end of chooseProduct
+//     function productQuantity() {
+//     inquirer
+//         .prompt({
+//             name: "quantity",
+//             type: "input",
+//             message: "Enter how many would you like to purchase?"
+//         })
 
+//     .then(function(answer) {
+//             var query = "SELECT stock_quantity FROM products WHERE?";
+//             connection.query(query, {stock_quantity: productSelected}, function(err, res) {
+//                 console.log("Quantity: " + res[i].stock_quantity)
 
+//             })//end of connection.query
+//         })//end if .then
+
+// } //end of productQuantity function
+
+// //----------
