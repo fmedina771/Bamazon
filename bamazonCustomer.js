@@ -50,9 +50,33 @@ function chooseProduct() {
         connection.query(query, { item_id: answer.product }, function(err, res) {
             for (var i = 0; i < res.length; i++) {
                 console.log("Product Name: " + res[i].product_name)
-            }
-            // quantityOfProducts();
+            }//end of for loop
+
+        })//end of connection.query
+
+    })//end of .then
+//----------
+
+    function productQuantity() {
+    inquirer
+        .prompt({
+            name: "quantity",
+            type: "input",
+            message: "Enter how many would you like to purchase?"
         })
 
-    })
-}
+    .then(function(answer) {
+            var query = "SELECT stock_quantity FROM products WHERE?";
+            connection.query(query, {stock_quantity: answer.product}, function(err, res) {
+                console.log("Quantity: " +res[i].stock_quantity)
+
+            })//end of connection.query
+        })//end if .then
+
+} //end of productQuantity function
+
+//----------
+
+}//end of chooseProduct
+
+
